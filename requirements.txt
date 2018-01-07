@@ -1,0 +1,8 @@
+git+https://github.com/SeabornGames/meta.git#egg=seaborn-meta
+git+https://github.com/SeabornGames/table.git#egg=seaborn-table
+git+https://github.com/SeabornGames/logger.git#egg=seaborn-logger
+git+https://github.com/SeabornGames/sorter.git#egg=seaborn-sorters
+git+https://github.com/SeabornGames/requestclient.git#egg=seaborn-request-client
+git+https://github.com/SeabornGames/timestamp.git#egg=seaborn-timestamp
+git+https://github.com/SeabornGames/file.git#egg=seaborn-file
+git+https://github.com/SeabornGames/flaskserver.git#egg=seaborn-flask-server

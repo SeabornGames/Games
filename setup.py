@@ -1,4 +1,11 @@
 from setuptools import setup, find_packages
+from pip.req import parse_requirements
+import os, requirements
+
+file = os.path.abspath(__file__).replace('setup.py','requirements.txt')
+parser = requirements.parse(file)
+
+#requirements = [str(line.req) for line in parser]
 
 setup(
     name='seaborn-games',
@@ -11,17 +18,10 @@ setup(
     download_url='https://github.com/SeabornGames/Games/tarball/download',
     keywords=[],
     install_requires=[
-        'seaborn-file',
-        'seaborn-flask-server',
-        'seaborn-logger',
-        'seaborn-meta',
-        'seaborn-request_client',
-        'seaborn-table',
-        'seaborn-timestamp'
     ],
     extras_require={
     },
-    packages=[],
+    packages=['seaborn.games'],
     license='MIT License',
     classifiers=[
         'Intended Audience :: Developers',
@@ -31,4 +31,8 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6'],
+    entry_points='''
+        [console_scripts]
+        seatest=seaborn.games:seatest
+    '''
 )
