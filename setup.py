@@ -34,5 +34,8 @@ setup(
     entry_points='''
         [console_scripts]
         seatest=seaborn.games:seatest
+        seaborn_status=seaborn.games:seaborn_status
+        seaborn_commit=seaborn.games:seaborn_commit
+        seaborn_push=seaborn.games:seaborn_push
     '''
 )
