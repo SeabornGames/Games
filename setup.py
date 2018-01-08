@@ -27,9 +27,9 @@ setup(
         'Programming Language :: Python :: 3.6'],
     entry_points='''
         [console_scripts]
-        seatest=seaborn.games:seatest
-        seaborn_status=seaborn.games:seaborn_status
-        seaborn_commit=seaborn.games:seaborn_commit
-        seaborn_push=seaborn.games:seaborn_push
+        seatest=seaborn.games.test_all:main
+        seaborn_status=seaborn.games.git_commands:seaborn_status
+        seaborn_commit=seaborn.games.git_commands:seaborn_commit
+        seaborn_push=seaborn.games.git_commands:seaborn_push
     '''
 )
