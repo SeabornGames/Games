@@ -4,11 +4,12 @@ from subprocess import *
 
 
 PATH = os.path.dirname(os.path.abspath(__file__))
+print(PATH)
 SUPER_PATH = os.path.dirname(PATH)
 SISTER_PATHS = [os.path.join(SUPER_PATH, i) for i in os.listdir(SUPER_PATH)
                 if '.' not in i and i != PATH]
 
-
+print("\n".join(SISTER_PATHS))
 
 
 

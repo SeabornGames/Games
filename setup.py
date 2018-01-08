@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
 
 setup(
     name='seaborn-games',
@@ -15,7 +14,8 @@ setup(
     ],
     extras_require={
     },
-    packages=['seaborn.games'],
+    packages=['seaborn'] + ['seaborn.' + i
+                            for i in find_packages(where='./seaborn')],
     license='MIT License',
     classifiers=[
         'Intended Audience :: Developers',
@@ -31,5 +31,6 @@ setup(
         seaborn_status=seaborn.games.git_commands:seaborn_status
         seaborn_commit=seaborn.games.git_commands:seaborn_commit
         seaborn_push=seaborn.games.git_commands:seaborn_push
+        seaborn_install=seaborn.games.git_commands:seaborn_install
     '''
 )
