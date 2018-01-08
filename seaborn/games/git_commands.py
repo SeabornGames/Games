@@ -58,7 +58,7 @@ def install(*args):
 def uninstall(*args):
     with open('setup.py', 'r') as fp:
         name = fp.read().split("name='")[-1].split("'")[0]
-    cmd('pip uninstall %s'%name)
+    cmd('pip uninstall -y %s'%name)
 
 
 def seaborn_status():
