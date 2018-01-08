@@ -1,11 +1,5 @@
 from setuptools import setup, find_packages
 from pip.req import parse_requirements
-import os, requirements
-
-file = os.path.abspath(__file__).replace('setup.py','requirements.txt')
-parser = requirements.parse(file)
-
-#requirements = [str(line.req) for line in parser]
 
 setup(
     name='seaborn-games',
