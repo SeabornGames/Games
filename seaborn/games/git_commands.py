@@ -18,7 +18,7 @@ SISTER_PATHS = [SUPER_PATH + '/' + i for i in os.listdir(SUPER_PATH)
 def status(echo=True, *args):
     result = check_output('git status', shell=True)
     if echo:
-        print(result)
+        print(str(result))
     return result
 
 def commit(*args):
