@@ -1,98 +1,78 @@
-import os
-import sys
+import os, sys
 from subprocess import *
 
-CWD = os.getcwd().replace('\\','/').split('/')
-SUPER_PATH = os.path.join(*CWD[:CWD.index('seaborn')+1])
-if CWD[0] == '':
-    SUPER_PATH = '/'+SUPER_PATH
-SISTER_PATHS = [os.path.join(SUPER_PATH, i) for i in os.listdir(SUPER_PATH)
-                if '.' not in i and i != 'games']
+PATH = os.getcwd().replace('\\','/')
+DIS_PATH = PATH.split('/')
 
-def cmd(command):
-    """
-    :param command: str of the command to execute e.g. ls -ls
-    :return: str of the STDOUT of the command
-    """
-    process = Popen(command, stdout=PIPE, stderr=STDOUT, shell=True,
-                    close_fds=True)
-    process.wait()
-    if process.returncode == 0:
-        ret = process.communicate()[0].strip()
-        return ret.decode() if sys.version_info[0] == 3 else ret
-    else:  # error
-        raise Exception("\n\nFailed to execute command: %s \n\n%s" % (
-            command, process.communicate()[0]))
+depth = None
+for i in range(len(DIS_PATH)):
+    if DIS_PATH[-i]=='seaborn':
+        depth = i
 
-def tab(result, space= '    '):
-    print(space+('\n'+space).join(result.split('\n')))
+DEPTH = depth - 1
 
+SUPER_PATH = '/'.join(DIS_PATH[:-DEPTH])
+SISTER_PATHS = [SUPER_PATH + '/' + i for i in os.listdir(SUPER_PATH)
+               if '.' not in i and not 'game' in i.lower()]
 
-def status(echo=True, *args):
-    result = cmd('git status')
+def seaborn_status(echo=True, *args):
+    result = check_output('git status', shell=True)
     if echo:
-        tab(result)
+        print(result.decode('utf-8'))
     return result
 
-
-def commit(*args):
-    commit = 'not staged' in status(False)
+def seaborn_commit(*args):
+    commit = 'not staged' in seaborn_status(False).decode('utf-8')
     if commit:
-        tab(cmd('git add -A'))
-        tab(cmd('git commit -m "%s"' % args[0]))
+        print(check_output('git add -A', shell=True).decode('utf-8'))
+        print(
+            check_output(
+                'git commit -m "%s"' % args[0], shell=True
+            ).decode('utf-8'))
     else:
-        tab('Not committing: Everything up-to-date\n')
+        print('Not committing: Everything up-to-date\n')
     return commit
 
-
-def push(*args):
-    push = 'up-to-date' in status(False)
+def seaborn_push(*args):
+    push = 'up-to-date' in seaborn_status(False).decode('utf-8')
     if push:
-        cmd('git push')
+        print(check_output('git push', shell=True).decode('utf-8'))
+    else:
+        print('Not pushing: Not up-to-date')
 
+def seaborn_pull(*args):
+    mstr = '*master' in check_output('git branch').decode('utf-8')
+    pull = 'up-to-date' in seaborn_status(False).decode('utf-8')
+    if mstr and pull:
+        print(check_output('git pull origin master').decode('utf-8'))
+    else:
+        print(check_output('git fetch origin master').decode('utf-8'))
 
-def install(*args):
-    cmd('pip install -e .')
+FUNCS = {'status':seaborn_status,
+         'commit':seaborn_commit,
+         'push':seaborn_push,
+         'pull':seaborn_pull}
 
+def dir_iter(func_name,*args):
+    func_iter(func_name)(*args)
 
-def uninstall(*args):
-    with open('setup.py', 'r') as fp:
-        name = fp.read().split("name='")[-1].split("'")[0]
-    cmd('pip uninstall -y %s'%name)
+def func_iter(func_name):
+    func = FUNCS[func_name.replace('seaborn_','')]
+    def ret(*args):
+        for path in SISTER_PATHS:
+            os.chdir(path)
+            print('\n\n'+func_name+'-\t'+path)
+            try:
+                func(*args)
+            except BaseException as e:
+                pass
+    return ret
 
-
-def seaborn_status():
-    dir_iter(status, *sys.argv[1:])
-
-
-def seaborn_commit():
-    dir_iter(commit, *sys.argv[1:])
-
-
-def seaborn_push():
-    dir_iter(push, *sys.argv[1:])
-
-
-def seaborn_install():
-    dir_iter(install, *sys.argv[1:])
-    dir_iter(install, *sys.argv[1:])
-
-
-def seaborn_uninstall():
-    dir_iter(uninstall, *sys.argv[1:])
-
-
-def dir_iter(func, *args):
-    print("\n" * 20)
-    for path in SISTER_PATHS:
-        os.chdir(path)
-        print('\n\n' + path)
-        try:
-            func(*args)
-        except BaseException as e:
-            pass
+iter_status = func_iter('status')
+iter_commit = func_iter('commit')
+iter_push = func_iter('push')
+iter_pull = func_iter('pull')
 
 
 if __name__ == '__main__':
-    dir_iter(status)
-    # dir_iter(eval(sys.argv[1]), sys.argv[2:])
+    dir_iter(sys.argv[1], sys.argv[2:])
