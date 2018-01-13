@@ -14,8 +14,9 @@ setup(
     ],
     extras_require={
     },
-    packages=['seaborn'] + ['seaborn.' + i
-                            for i in find_packages(where='./seaborn')],
+    packages=['seaborn', 'seaborn.games'],
+    # '['seaborn'] + ['seaborn.' + i
+    #                         for i in find_packages(where='./seaborn')],
     license='MIT License',
     classifiers=[
         'Intended Audience :: Developers',
