@@ -1,14 +1,4 @@
 from setuptools import setup, find_packages
-from seaborn.games.git_commands import *
-
-TAB = '\n\t\t'
-PREFIX = 'seaborn.games.git_commands:'
-entry = TAB[1:]+'[console_scripts]' + TAB + \
-        'seaborn_install=seaborn.games.git_commands:seaborn_install' + TAB + \
-        'seaborn_uninstall=seaborn.games.git_commands:seaborn_uninstall'
-for k in FUNCS.keys():
-    entry += TAB + 'seaborn_'+k+'='+PREFIX+'seaborn_'+k
-    entry += TAB + 'iter_'+k+'='+PREFIX+'iter_'+k
 
 setup(
     name='seaborn-games',
@@ -36,5 +26,12 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6'],
-    entry_points=entry
+    entry_points='''
+        [console_scripts]
+        seaborn_status=seaborn.games.git_commands:seaborn_status
+        seaborn_commit=seaborn.games.git_commands:seaborn_commit
+        seaborn_push=seaborn.games.git_commands:seaborn_push
+        seaborn_pull=seaborn.games.git_commands:seaborn_pull
+        seaborn_install=seaborn.games.git_commands:seaborn_install
+    '''
 )
