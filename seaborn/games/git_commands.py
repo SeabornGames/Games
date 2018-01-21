@@ -2,17 +2,10 @@ import os, sys
 from subprocess import *
 
 PATH = os.getcwd().replace('\\','/')
-DIS_PATH = PATH.split('/')
+if '/seaborn' in PATH:
+    PATH = '%s/seaborn'%PATH.split('/seaborn')[0]
 
-depth = None
-for i in range(len(DIS_PATH)):
-    if DIS_PATH[-i]=='seaborn':
-        depth = i
-
-DEPTH = depth - 1
-
-SUPER_PATH = '/'.join(DIS_PATH[:-DEPTH])
-SISTER_PATHS = [SUPER_PATH + '/' + i for i in os.listdir(SUPER_PATH)
+SISTER_PATHS = [PATH + '/' + i for i in os.listdir(PATH)
                if '.' not in i and not 'game' in i.lower()]
 
 def seaborn_status(echo=True, *args):
