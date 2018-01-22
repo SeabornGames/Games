@@ -21,7 +21,13 @@ def func_iter(func):
             except BaseException as e:
                 pass
 
-    return ret
+    if func.__code__.co_argcount == 0:
+        return ret
+
+    def alt():
+        ret()
+
+    return alt
 
 def status(echo=True):
     check_output('git fetch origin')
@@ -31,12 +37,12 @@ def status(echo=True):
     return result
 
 @func_iter
-def seaborn_install(*args):
+def seaborn_install():
     result = check_output('pip install . -U')
     print(result.decode('utf-8'))
 
 @func_iter
-def seaborn_status(*args):
+def seaborn_status():
     return status()
 
 @func_iter
@@ -52,7 +58,7 @@ def seaborn_commit(*args):
 
 
 @func_iter
-def seaborn_push(*args):
+def seaborn_push():
     push = 'up-to-date' in status(False).decode('utf-8')
     if push:
         print(check_output('git push', shell=True).decode('utf-8'))
@@ -61,11 +67,8 @@ def seaborn_push(*args):
 
 
 @func_iter
-def seaborn_pull(*args):
-    check_output('git fetch origin')
+def seaborn_pull():
     mstr = '*master' in check_output('git branch').decode('utf-8')
     pull = 'up-to-date' in status(False).decode('utf-8')
     if mstr and pull:
         print(check_output('git pull origin master').decode('utf-8'))
-    else:
-        print(check_output('git fetch origin master').decode('utf-8'))
