@@ -62,6 +62,7 @@ def seaborn_push(*args):
 
 @func_iter
 def seaborn_pull(*args):
+    check_output('git fetch origin')
     mstr = '*master' in check_output('git branch').decode('utf-8')
     pull = 'up-to-date' in status(False).decode('utf-8')
     if mstr and pull:
