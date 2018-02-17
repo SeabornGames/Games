@@ -7,51 +7,44 @@ else:
     else:
         import importlib.util
 
-PATH = os.path.abspath(__file__).replace('\\','/')
-DIS_PATH = PATH.split('/')
-IGNORE = ['request_client', 'meta','seaborn_table','SeabornTable']
+IGNORE = ['request_client', 'meta', 'seaborn_table', 'SeabornTable']
 
-i = None
-for i in range(len(DIS_PATH)):
-    if DIS_PATH[-i]=='games':
-        depth = i
-
-DEPTH = depth
-
-SUPER_PATH = '/'.join(DIS_PATH[:-DEPTH])
-SISTER_PATHS = [SUPER_PATH + '/' + i for i in os.listdir(SUPER_PATH)
-               if '.' not in i and i != DIS_PATH[-DEPTH]]
 
 def main():
-    print("Searching directory: %s"%SUPER_PATH)
-    print("Found paths:")
-    testmodules = []
-    for dir_ in SISTER_PATHS:
-        if os.path.isdir(dir_+'/test') and os.path.split(dir_)[1] not in IGNORE:
-            testmodules += [dir_ + '/test/' + i#.replace('.py','')
-                            for i in os.listdir(dir_+'/test')\
-                            if 'test' in i and '.pyc' not in i]
+    path = os.path.abspath(__file__).replace('\\', '/').rsplit('/',4)[0]
+    print("Searching directory: %s" % path)
+    sister_paths = ['%s/%s'%(path, subfolder) for subfolder in os.listdir(path)]
+    test_modules = []
+    for dir_ in sister_paths:
+        if os.path.isdir(dir_ + '/test') and \
+                        os.path.split(dir_)[1] not in IGNORE:
+            test_modules += [dir_ + '/test/' + i
+                            for i in os.listdir(dir_ + '/test') \
+                            if 'test' in i and i.endswith('.py')]
             print(dir_)
 
     modules = []
-    for path in testmodules:
-        if sys.version_info[0]==2:
-            modules += [imp.load_source('',path)]
-        else:
-            if sys.version_info[1] < 5:
-                modules += [SourceFileLoader("",path).load_module()]
+    for path in test_modules:
+        try:
+            if sys.version_info[0] == 2:
+                modules += [imp.load_source('', path)]
             else:
-                spec = importlib.spec_from_file_location('',path)
-                modules += [importlib.util.spec_from_file_location(spec)]
-                spec.loader.exec_module(modules[-1])
-        print("Found test:\t\t\t%s"%path)
+                if sys.version_info[1] < 5:
+                    modules += [SourceFileLoader("", path).load_module()]
+                else:
+                    spec = importlib.spec_from_file_location('', path)
+                    modules += [importlib.util.spec_from_file_location(spec)]
+                    spec.loader.exec_module(modules[-1])
+        except Exception as ex:
+            print("Exception loading module %s with %s"%(path, ex))
+        print("Found test:\t\t\t%s" % path)
     suite = unittest.TestSuite()
 
-    for test in testmodules:
-        print("Loading tests in:\t%s"%test)
+    for test in test_modules:
+        print("Loading tests in:\t%s" % test)
         suite.addTest(unittest.defaultTestLoader.loadTestsFromName(test))
-
     unittest.TextTestRunner().run(suite)
+
 
 if __name__ == '__main__':
     main()

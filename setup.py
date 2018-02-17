@@ -26,7 +26,7 @@ setup(
     #                         for i in find_packages(where='./seaborn')],
     license='MIT License',
     classifiers=[
-        'Intended Audience :: Developers',
+        'Intended Audience :: Seaborn Developers',
         'Natural Language :: English',
         'License :: Other/Proprietary License',
         'Operating System :: POSIX :: Linux',

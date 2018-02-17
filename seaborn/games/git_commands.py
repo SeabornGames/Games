@@ -1,13 +1,13 @@
 import os, sys
 from subprocess import *
 
-
 PATH = check_output('git rev-parse --show-toplevel').decode('utf-8')
 if '/seaborn' in PATH:
     PATH = '%s/seaborn' % PATH.split('/seaborn')[0]
 
 SISTER_PATHS = [PATH + '/' + i for i in os.listdir(PATH)
                 if '.' not in i and not 'game' in i.lower()]
+
 
 def func_iter(func):
     func_name = func.__name__
@@ -29,6 +29,7 @@ def func_iter(func):
 
     return alt
 
+
 def status(echo=True):
     check_output('git fetch origin')
     result = check_output('git status', shell=True)
@@ -36,14 +37,17 @@ def status(echo=True):
         print(result.decode('utf-8'))
     return result
 
+
 @func_iter
 def seaborn_install():
     result = check_output('pip install . -U')
     print(result.decode('utf-8'))
 
+
 @func_iter
 def seaborn_status():
     return status()
+
 
 @func_iter
 def seaborn_commit(*args):
