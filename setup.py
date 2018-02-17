@@ -1,11 +1,4 @@
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
-import os, requirements
-
-file = os.path.abspath(__file__).replace('setup.py','requirements.txt')
-parser = requirements.parse(file)
-
-#requirements = [str(line.req) for line in parser]
 
 setup(
     name='seaborn-games',
@@ -18,13 +11,22 @@ setup(
     download_url='https://github.com/SeabornGames/Games/tarball/download',
     keywords=[],
     install_requires=[
+        # todo uncomment when all packages are pushed to pypy
+        # 'seaborn-logger',
+        # 'seaborn-meta',
+        # 'seaborn-recorder',
+        # 'seaborn-request-client',
+        # 'seaborn-table',
+        # 'seaborn-timestamp',
     ],
     extras_require={
     },
-    packages=['seaborn.games'],
+    packages=['seaborn', 'seaborn.games'],
+    # '['seaborn'] + ['seaborn.' + i
+    #                         for i in find_packages(where='./seaborn')],
     license='MIT License',
     classifiers=[
-        'Intended Audience :: Developers',
+        'Intended Audience :: Seaborn Developers',
         'Natural Language :: English',
         'License :: Other/Proprietary License',
         'Operating System :: POSIX :: Linux',
@@ -33,6 +35,10 @@ setup(
         'Programming Language :: Python :: 3.6'],
     entry_points='''
         [console_scripts]
-        seatest=seaborn.games:seatest
+        seaborn_status=seaborn.games.git_commands:seaborn_status
+        seaborn_commit=seaborn.games.git_commands:seaborn_commit
+        seaborn_push=seaborn.games.git_commands:seaborn_push
+        seaborn_pull=seaborn.games.git_commands:seaborn_pull
+        seaborn_install=seaborn.games.git_commands:seaborn_install
     '''
 )

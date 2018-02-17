@@ -1,1 +1,0 @@
-from test_all import main as seatest
