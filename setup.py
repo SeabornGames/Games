@@ -11,6 +11,13 @@ setup(
     download_url='https://github.com/SeabornGames/Games/tarball/download',
     keywords=[],
     install_requires=[
+        # todo uncomment when all packages are pushed to pypy
+        # 'seaborn-logger',
+        # 'seaborn-meta',
+        # 'seaborn-recorder',
+        # 'seaborn-request-client',
+        # 'seaborn-table',
+        # 'seaborn-timestamp',
     ],
     extras_require={
     },
