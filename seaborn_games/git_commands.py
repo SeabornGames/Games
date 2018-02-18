@@ -1,8 +1,12 @@
 import os, sys
 from subprocess import *
 
+
+def cmd(command, shell=False):
+    return check_output(command, shell=shell).decode('utf-8')
+
 try:
-    PATH = check_output('git rev-parse --show-toplevel').decode('utf-8')
+    PATH = cmd('git rev-parse --show-toplevel')
     PATH = os.path.dirname(PATH)
 except:
     PATH = os.getcwd()
@@ -33,23 +37,27 @@ def func_iter(func):
 
 
 def status(echo=True):
-    check_output('git fetch origin')
-    result = check_output('git status', shell=True)
+    cmd('git fetch origin')
+    result = cmd('git status', shell=True)
     if echo:
-        print(result.decode('utf-8'))
+        print(result)
     return result
+
+
+def current_branch():
+    return cmd('git rev-parse --abbrev-ref HEAD')
 
 
 @func_iter
 def seaborn_install():
-    result = check_output('pip install . -U')
-    print(result.decode('utf-8'))
+    result = cmd('pip install . -U')
+    print(result)
 
 
 @func_iter
 def seaborn_debug():
-    result = check_output('pip install -e . -U ')
-    print(result.decode('utf-8'))
+    result = cmd('pip install -e . -U ')
+    print(result)
 
 
 @func_iter
@@ -59,11 +67,10 @@ def seaborn_status():
 
 @func_iter
 def seaborn_commit(*args):
-    commit = 'not staged' in status(False).decode('utf-8')
+    commit = 'not staged' in status(False)
     if commit:
-        print(check_output('git add -A', shell=True).decode('utf-8'))
-        print(check_output('git commit -m "%s"' % args[0], shell=True
-                           ).decode('utf-8'))
+        print(cmd('git add -A', shell=True))
+        print(cmd('git commit -m "%s"' % args[0], shell=True))
     else:
         print('Not committing: Everything up-to-date\n')
     return commit
@@ -71,16 +78,12 @@ def seaborn_commit(*args):
 
 @func_iter
 def seaborn_push():
-    push = 'up-to-date' in status(False).decode('utf-8')
-    if push:
-        print(check_output('git push', shell=True).decode('utf-8'))
-    else:
-        print('Not pushing: Not up-to-date')
+    print(cmd('git push origin %s'%current_branch(), shell=True))
 
 
 @func_iter
 def seaborn_pull():
-    mstr = '*master' in check_output('git branch').decode('utf-8')
-    pull = 'up-to-date' in status(False).decode('utf-8')
+    mstr = '*master' in cmd('git branch')
+    pull = 'up-to-date' in status(False)
     if mstr and pull:
-        print(check_output('git pull origin master').decode('utf-8'))
+        print(cmd('git pull origin master'))
