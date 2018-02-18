@@ -47,6 +47,12 @@ def seaborn_install():
 
 
 @func_iter
+def seaborn_debug():
+    result = check_output('pip install -e . -U ')
+    print(result.decode('utf-8'))
+
+
+@func_iter
 def seaborn_status():
     return status()
 

@@ -42,6 +42,7 @@ setup(
         seaborn_commit=seaborn_games.git_commands:seaborn_commit
         seaborn_push=seaborn_games.git_commands:seaborn_push
         seaborn_pull=seaborn_games.git_commands:seaborn_pull
+        seaborn_debug=seaborn_games.git_commands:seaborn_debug
         seaborn_install=seaborn_games.git_commands:seaborn_install
     '''
 )
