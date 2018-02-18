@@ -1,7 +1,7 @@
 from setuptools import setup
 import os
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as f:
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as f:
     long_description = f.read()
 
 setup(
@@ -15,7 +15,6 @@ setup(
     download_url='https://github.com/SeabornGames/Games/tarball/download',
     keywords=[],
     install_requires=[
-        'seaborn-hack', # remove when including everyone else
         # todo uncomment when all packages are pushed to pypy
         # 'seaborn-logger',
         # 'seaborn-meta',

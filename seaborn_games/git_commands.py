@@ -5,10 +5,10 @@ try:
     PATH = check_output('git rev-parse --show-toplevel').decode('utf-8')
     PATH = os.path.dirname(PATH)
 except:
-    PATH = '%s/seaborn' % os.getcwd().split('/seaborn')[0]
+    PATH = os.getcwd()
 
-SISTER_PATHS = [PATH + '/' + i for i in os.listdir(PATH)
-                if '.' not in i and not 'game' in i.lower()]
+SISTER_PATHS = [os.path.join(PATH, package) for package in os.listdir(PATH)
+                if '.' not in package and not 'game' in package.lower()]
 
 
 def func_iter(func):
