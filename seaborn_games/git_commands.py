@@ -1,9 +1,11 @@
 import os, sys
 from subprocess import *
 
-PATH = check_output('git rev-parse --show-toplevel').decode('utf-8')
-if '/seaborn' in PATH:
-    PATH = '%s/seaborn' % PATH.split('/seaborn')[0]
+try:
+    PATH = check_output('git rev-parse --show-toplevel').decode('utf-8')
+    PATH = os.path.dirname(PATH)
+except:
+    PATH = '%s/seaborn' % os.getcwd().split('/seaborn')[0]
 
 SISTER_PATHS = [PATH + '/' + i for i in os.listdir(PATH)
                 if '.' not in i and not 'game' in i.lower()]

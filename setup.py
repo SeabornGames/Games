@@ -26,7 +26,7 @@ setup(
     ],
     extras_require={
     },
-    packages=['seaborn', 'seaborn.games'],
+    packages=['seaborn_games'],
     license='MIT License',
     classifiers=[
         'Intended Audience :: Seaborn Developers',
@@ -38,10 +38,10 @@ setup(
         'Programming Language :: Python :: 3.6'],
     entry_points='''
         [console_scripts]
-        seaborn_status=seaborn.games.git_commands:seaborn_status
-        seaborn_commit=seaborn.games.git_commands:seaborn_commit
-        seaborn_push=seaborn.games.git_commands:seaborn_push
-        seaborn_pull=seaborn.games.git_commands:seaborn_pull
-        seaborn_install=seaborn.games.git_commands:seaborn_install
+        seaborn_status=seaborn_games.git_commands:seaborn_status
+        seaborn_commit=seaborn_games.git_commands:seaborn_commit
+        seaborn_push=seaborn_games.git_commands:seaborn_push
+        seaborn_pull=seaborn_games.git_commands:seaborn_pull
+        seaborn_install=seaborn_games.git_commands:seaborn_install
     '''
 )
