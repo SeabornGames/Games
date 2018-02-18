@@ -1,4 +1,6 @@
 from setuptools import setup, find_packages
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as f:
+    long_description = f.read()
 
 setup(
     name='seaborn-games',
@@ -11,6 +13,7 @@ setup(
     download_url='https://github.com/SeabornGames/Games/tarball/download',
     keywords=[],
     install_requires=[
+        'seaborn-hack', # remove when including everyone else
         # todo uncomment when all packages are pushed to pypy
         # 'seaborn-logger',
         # 'seaborn-meta',
@@ -22,8 +25,6 @@ setup(
     extras_require={
     },
     packages=['seaborn', 'seaborn.games'],
-    # '['seaborn'] + ['seaborn.' + i
-    #                         for i in find_packages(where='./seaborn')],
     license='MIT License',
     classifiers=[
         'Intended Audience :: Seaborn Developers',
