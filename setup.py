@@ -1,4 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+import os
+
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as f:
+    long_description = f.read()
 
 setup(
     name='seaborn-games',
@@ -21,9 +25,7 @@ setup(
     ],
     extras_require={
     },
-    packages=['seaborn', 'seaborn.games'],
-    # '['seaborn'] + ['seaborn.' + i
-    #                         for i in find_packages(where='./seaborn')],
+    packages=['seaborn_games'],
     license='MIT License',
     classifiers=[
         'Intended Audience :: Seaborn Developers',
@@ -35,10 +37,11 @@ setup(
         'Programming Language :: Python :: 3.6'],
     entry_points='''
         [console_scripts]
-        seaborn_status=seaborn.games.git_commands:seaborn_status
-        seaborn_commit=seaborn.games.git_commands:seaborn_commit
-        seaborn_push=seaborn.games.git_commands:seaborn_push
-        seaborn_pull=seaborn.games.git_commands:seaborn_pull
-        seaborn_install=seaborn.games.git_commands:seaborn_install
+        seaborn_status=seaborn_games.git_commands:seaborn_status
+        seaborn_commit=seaborn_games.git_commands:seaborn_commit
+        seaborn_push=seaborn_games.git_commands:seaborn_push
+        seaborn_pull=seaborn_games.git_commands:seaborn_pull
+        seaborn_debug=seaborn_games.git_commands:seaborn_debug
+        seaborn_install=seaborn_games.git_commands:seaborn_install
     '''
 )
